@@ -20,6 +20,7 @@ package com.google.devtools.ksp
 import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption
 import org.jetbrains.kotlin.config.ApiVersion
 import org.jetbrains.kotlin.config.LanguageVersionSettings
+import org.jetbrains.kotlin.config.LanguageVersionSettingsImpl
 import org.jetbrains.kotlin.config.toKotlinVersion
 import java.io.File
 
@@ -120,7 +121,10 @@ class KspOptions(
                 withCompilation,
                 returnOkOnError,
                 changedClasses,
-                requireNotNull(languageVersionSettings) { "A non-null languageVersionSettings must be provided" },
+                languageVersionSettings ?: LanguageVersionSettingsImpl(
+                    languageVersion = LanguageVersionSettingsImpl.DEFAULT.languageVersion,
+                    apiVersion = LanguageVersionSettingsImpl.DEFAULT.apiVersion,
+                ),
                 compilerVersion,
                 commonSources,
                 excludedProcessors,
